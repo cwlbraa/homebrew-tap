@@ -2,37 +2,41 @@
 cask "container-use" do
   desc "Containerized environments for coding agents"
   homepage "https://github.com/cwlbraa/container-use"
-  version "0.0.2"
+  version "0.0.6"
 
   livecheck do
     skip "Auto-generated on release."
   end
 
   binary "cu"
+  bash_completion "completions/cu.bash"
+  zsh_completion "completions/cu.zsh"
+  fish_completion "completions/cu.fish"
 
   on_macos do
     on_intel do
-      url "https://github.com/cwlbraa/container-use/releases/download/v0.0.2/container-use_v0.0.2_darwin_amd64.tar.gz"
-      sha256 "45f48f76b2f1f8e69a3685a2afec1590c4b8953e302e274918f255d95e89c41b"
+      url "https://github.com/cwlbraa/container-use/releases/download/v0.0.6/container-use_v0.0.6_darwin_amd64.tar.gz"
+      sha256 "4013dd996104344d162cce58c35d0c97d98cf2b532909c4d9ce18cbba8d72a2e"
     end
     on_arm do
-      url "https://github.com/cwlbraa/container-use/releases/download/v0.0.2/container-use_v0.0.2_darwin_arm64.tar.gz"
-      sha256 "2863b8771ce5601e0ed5bd52a8ebb19c346e9c115580781259f50320cf33c58b"
+      url "https://github.com/cwlbraa/container-use/releases/download/v0.0.6/container-use_v0.0.6_darwin_arm64.tar.gz"
+      sha256 "a19ebeba2c8881d57a8b54df6e42b240b59139a522c36ee45f807973f7ad4166"
     end
   end
 
   on_linux do
     on_intel do
-      url "https://github.com/cwlbraa/container-use/releases/download/v0.0.2/container-use_v0.0.2_linux_amd64.tar.gz"
-      sha256 "ae41bf5f01d75f008fb4ae26b84748bb324290658f4ce630f79e9c14454bae58"
+      url "https://github.com/cwlbraa/container-use/releases/download/v0.0.6/container-use_v0.0.6_linux_amd64.tar.gz"
+      sha256 "1537d28a08fa0a157b5f4adcce7a492bf476211761f703b743507e30560feb96"
     end
     on_arm do
-      url "https://github.com/cwlbraa/container-use/releases/download/v0.0.2/container-use_v0.0.2_linux_arm64.tar.gz"
-      sha256 "08669bffb61903900db66d592791a85285b47c785d2b5a7963f1729c289ac53c"
+      url "https://github.com/cwlbraa/container-use/releases/download/v0.0.6/container-use_v0.0.6_linux_arm64.tar.gz"
+      sha256 "7c344ff4743ed253e6a411417807a9cef7d5a7cca39abc8599abaaf06a19bb71"
     end
   end
 
   postflight do
+    # remove quarantine xattr (note we don't do anything with signatures yet)
     if system_command("/usr/bin/xattr", args: ["-h"]).exit_status == 0
       system_command "/usr/bin/xattr", args: ["-dr", "com.apple.quarantine", "#{staged_path}/cu"]
     end

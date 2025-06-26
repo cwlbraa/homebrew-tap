@@ -16,22 +16,22 @@ cask "container-use" do
   on_macos do
     on_intel do
       url "https://github.com/cwlbraa/container-use/releases/download/v0.0.6/container-use_v0.0.6_darwin_amd64.tar.gz"
-      sha256 "79aabf050f7f186037d6ffc98f0acc87d1af22936c3ea081eeb530d58184c887"
+      sha256 "2c70b9b9577f3802f22b9324c9c960b8a031426d0739f0da53240efa22551ebe"
     end
     on_arm do
       url "https://github.com/cwlbraa/container-use/releases/download/v0.0.6/container-use_v0.0.6_darwin_arm64.tar.gz"
-      sha256 "3246273a63e78cc7284d4d4bb6438c91a4a4c06dde43e300dc4cfd141062ed9a"
+      sha256 "aa94a7bc2942530c2fa8c6a5ead5d113d623c526e8ee4c1b38db5da002758c18"
     end
   end
 
   on_linux do
     on_intel do
       url "https://github.com/cwlbraa/container-use/releases/download/v0.0.6/container-use_v0.0.6_linux_amd64.tar.gz"
-      sha256 "3bb24c76e02476a88dac8db5ca52cbcfe35609b79cdd12b76c5010fed276d449"
+      sha256 "ea94b72612851704af21b8deeb904db9028320f0b0e433834223b1822ddb5604"
     end
     on_arm do
       url "https://github.com/cwlbraa/container-use/releases/download/v0.0.6/container-use_v0.0.6_linux_arm64.tar.gz"
-      sha256 "de007a558ece7fa67a6af871a1877297c2f3ced62a6ed1621e71345f310de508"
+      sha256 "8273401d80442c6532833e65e8b9e0c61de1ec261117ea8f1688b78e2196369d"
     end
   end
 

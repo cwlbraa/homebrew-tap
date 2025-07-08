@@ -37,7 +37,7 @@ cask "container-use" do
 
   postflight do
     # remove quarantine xattr (note we don't do anything with signatures yet)
-    if system("/usr/bin/xattr", "-h", err: :close)
+    if File.exist?("/usr/bin/xattr")
       system "/usr/bin/xattr", "-dr", "com.apple.quarantine", "#{staged_path}/container-use"
     end
 

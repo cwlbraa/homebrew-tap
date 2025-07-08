@@ -2,43 +2,66 @@
 cask "container-use" do
   desc "Containerized environments for coding agents"
   homepage "https://github.com/cwlbraa/container-use"
-  version "0.0.6"
+  version "0.2.0"
 
   livecheck do
     skip "Auto-generated on release."
   end
 
-  binary "cu"
-  bash_completion "completions/cu.bash"
-  zsh_completion "completions/cu.zsh"
-  fish_completion "completions/cu.fish"
+  binary "container-use"
+  bash_completion "completions/container-use.bash"
+  zsh_completion "completions/container-use.zsh"
+  fish_completion "completions/container-use.fish"
 
   on_macos do
     on_intel do
-      url "https://github.com/cwlbraa/container-use/releases/download/v0.0.6/container-use_v0.0.6_darwin_amd64.tar.gz"
-      sha256 "2c70b9b9577f3802f22b9324c9c960b8a031426d0739f0da53240efa22551ebe"
+      url "https://github.com/cwlbraa/container-use/releases/download/v0.2.0/container-use_v0.2.0_darwin_amd64.tar.gz"
+      sha256 "afac7035a97ae5f6714252fe60b3c3478b9301d181d476b204bc3163379c5fae"
     end
     on_arm do
-      url "https://github.com/cwlbraa/container-use/releases/download/v0.0.6/container-use_v0.0.6_darwin_arm64.tar.gz"
-      sha256 "aa94a7bc2942530c2fa8c6a5ead5d113d623c526e8ee4c1b38db5da002758c18"
+      url "https://github.com/cwlbraa/container-use/releases/download/v0.2.0/container-use_v0.2.0_darwin_arm64.tar.gz"
+      sha256 "8181650d3ffb8006dbb9e394d0e7ad8f198f83e24b8eaa37b599cb9c938f3171"
     end
   end
 
   on_linux do
     on_intel do
-      url "https://github.com/cwlbraa/container-use/releases/download/v0.0.6/container-use_v0.0.6_linux_amd64.tar.gz"
-      sha256 "ea94b72612851704af21b8deeb904db9028320f0b0e433834223b1822ddb5604"
+      url "https://github.com/cwlbraa/container-use/releases/download/v0.2.0/container-use_v0.2.0_linux_amd64.tar.gz"
+      sha256 "5be6fbce0c47b12081b8c98f7ee1d584ac5b678f7e9d2e2c99ef4e2ffde95b44"
     end
     on_arm do
-      url "https://github.com/cwlbraa/container-use/releases/download/v0.0.6/container-use_v0.0.6_linux_arm64.tar.gz"
-      sha256 "8273401d80442c6532833e65e8b9e0c61de1ec261117ea8f1688b78e2196369d"
+      url "https://github.com/cwlbraa/container-use/releases/download/v0.2.0/container-use_v0.2.0_linux_arm64.tar.gz"
+      sha256 "0b5f2d08fb15c6d1976f64b9dffa20ed5445b36d88b53f1850e75d62138a5bd8"
     end
   end
 
   postflight do
     # remove quarantine xattr (note we don't do anything with signatures yet)
-    if system_command("/usr/bin/xattr", args: ["-h"]).exit_status == 0
-      system_command "/usr/bin/xattr", args: ["-dr", "com.apple.quarantine", "#{staged_path}/cu"]
+    if system("/usr/bin/xattr", "-h", err: :close)
+      system "/usr/bin/xattr", "-dr", "com.apple.quarantine", "#{staged_path}/container-use"
+    end
+
+    # Create cu symlink for backward compatibility
+    FileUtils.ln_sf "container-use", "#{staged_path}/cu"
+
+    # Install cu completions for backward compatibility
+    bash_completion = "#{HOMEBREW_PREFIX}/etc/bash_completion.d"
+    zsh_completion = "#{HOMEBREW_PREFIX}/share/zsh/site-functions"
+    fish_completion = "#{HOMEBREW_PREFIX}/share/fish/vendor_completions.d"
+
+    if File.exist?("#{staged_path}/completions/cu.bash")
+      FileUtils.mkdir_p bash_completion
+      FileUtils.cp "#{staged_path}/completions/cu.bash", "#{bash_completion}/cu"
+    end
+
+    if File.exist?("#{staged_path}/completions/cu.zsh")
+      FileUtils.mkdir_p zsh_completion
+      FileUtils.cp "#{staged_path}/completions/cu.zsh", "#{zsh_completion}/_cu"
+    end
+
+    if File.exist?("#{staged_path}/completions/cu.fish")
+      FileUtils.mkdir_p fish_completion
+      FileUtils.cp "#{staged_path}/completions/cu.fish", "#{fish_completion}/cu.fish"
     end
   end
 

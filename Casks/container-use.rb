@@ -42,7 +42,7 @@ cask "container-use" do
     end
 
     # Create cu symlink for backward compatibility
-    FileUtils.ln_sf "container-use", "#{staged_path}/cu"
+    FileUtils.ln_sf "#{HOMEBREW_PREFIX}/bin/container-use", "#{HOMEBREW_PREFIX}/bin/cu"
 
     # Install cu completions for backward compatibility
     bash_completion = "#{HOMEBREW_PREFIX}/etc/bash_completion.d"
